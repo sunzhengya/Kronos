@@ -70,7 +70,6 @@ docs: ## Generate documentation
 # Development tasks (using uv)
 setup-dev: ## Set up development environment
 	uv sync --all-extras
-	uv run pre-commit install
 
 preprocess-data: ## Run data preprocessing
 	uv run python scripts/qlib_data_preprocess.py
