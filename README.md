@@ -27,7 +27,7 @@
 
 <p align="center">
 
-<img src="./figures/logo.jpeg" width="100">
+<img src="./docs/assets/figures/logo.jpeg" width="100">
 
 </p>
 
@@ -50,7 +50,7 @@
 2. A large, autoregressive Transformer is then pre-trained on these tokens, enabling it to serve as a unified model for diverse quantitative tasks.
 
 <p align="center">
-    <img src="figures/overview.png" alt="" align="center" width="700px" />
+    <img src="docs/assets/figures/overview.png" alt="" align="center" width="700px" />
 </p>
 
 ## ✨ Live Demo 
@@ -161,7 +161,7 @@ For a complete, runnable script that includes data loading, prediction, and plot
 Running this script will generate a plot comparing the ground truth data against the model's forecast, similar to the one shown below:
 
 <p align="center">
-    <img src="figures/prediction_example.png" alt="Forecast Example" align="center" width="600px" />
+    <img src="docs/assets/figures/prediction_example.png" alt="Forecast Example" align="center" width="600px" />
 </p>
 
 Additionally, we also provide a script that makes predictions without Volume and Amount data, which can be found in [`examples/prediction_wo_vol_example.py`](examples/prediction_wo_vol_example.py).
@@ -249,7 +249,7 @@ python finetune/qlib_test.py --device cuda:0
 The script will output a detailed performance analysis in your console and generate a plot showing the cumulative return curves of your strategy against the benchmark, similar to the one below:
 
 <p align="center">
-    <img src="figures/backtest_result_example.png" alt="Backtest Example" align="center" width="700px" />
+    <img src="docs/assets/figures/backtest_result_example.png" alt="Backtest Example" align="center" width="700px" />
 </p>
 
 ### 💡 From Demo to Production: Important Considerations

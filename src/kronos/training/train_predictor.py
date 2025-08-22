@@ -9,15 +9,19 @@ from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-import comet_ml
+# Optional import for experiment tracking
+try:
+    import comet_ml
+    COMET_AVAILABLE = True
+except ImportError:
+    COMET_AVAILABLE = False
+    comet_ml = None
 
-# Ensure project root is in path
-sys.path.append('../')
-from config import Config
-from dataset import QlibDataset
-from model.kronos import KronosTokenizer, Kronos
+from ..config import Config
+from ..data.dataset import QlibDataset
+from ..models.kronos import KronosTokenizer, Kronos
 # Import shared utilities
-from utils.training_utils import (
+from ..utils.training_utils import (
     setup_ddp,
     cleanup_ddp,
     set_seed,
@@ -196,7 +200,7 @@ def main(config: dict):
             'save_directory': save_dir,
             'world_size': world_size,
         }
-        if config['use_comet']:
+        if config['use_comet'] and COMET_AVAILABLE:
             comet_logger = comet_ml.Experiment(
                 api_key=config['comet_config']['api_key'],
                 project_name=config['comet_config']['project_name'],
@@ -206,6 +210,8 @@ def main(config: dict):
             comet_logger.set_name(config['comet_name'])
             comet_logger.log_parameters(config)
             print("Comet Logger Initialized.")
+        elif config['use_comet'] and not COMET_AVAILABLE:
+            print("Warning: Comet ML requested but not available. Install with: pip install comet_ml")
 
     dist.barrier()
 

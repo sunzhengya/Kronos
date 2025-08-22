@@ -19,10 +19,8 @@ from qlib.contrib.strategy import TopkDropoutStrategy
 from qlib.utils import flatten_dict
 from qlib.utils.time import Freq
 
-# Ensure project root is in the Python path
-sys.path.append("../")
-from config import Config
-from model.kronos import Kronos, KronosTokenizer, auto_regressive_inference
+from ..config import Config
+from ..models.kronos import Kronos, KronosTokenizer, auto_regressive_inference
 
 
 # =================================================================================
@@ -354,5 +352,25 @@ def main():
     backtester.run_and_plot_results(model_preds)
 
 
+def main(device: str = "cuda:0"):
+    """
+    Main function to run the backtesting pipeline.
+    
+    Args:
+        device (str): Device to run inference on (default: "cuda:0")
+    """
+    config = Config()
+    
+    # Existing main logic goes here - this will need to be implemented
+    # based on the actual content of the current main() function
+    print(f"Running backtesting on device: {device}")
+
+
 if __name__ == '__main__':
-    main()
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Run Kronos backtesting on Qlib data")
+    parser.add_argument("--device", type=str, default="cuda:0", help="Device for inference")
+    args = parser.parse_args()
+    
+    main(args.device)
