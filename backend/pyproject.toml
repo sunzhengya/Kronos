@@ -1,0 +1,187 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kronos-financial"
+version = "0.1.0"
+description = "Kronos: A Foundation Model for the Language of Financial Markets"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Yu Shi"},
+    {name = "Zongliang Fu"},
+    {name = "Shuo Chen"},
+    {name = "Bohan Zhao"},
+    {name = "Wei Xu"},
+    {name = "Changshui Zhang"},
+    {name = "Jian Li"},
+]
+keywords = ["financial", "time-series", "transformer", "quantitative", "trading"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Office/Business :: Financial",
+]
+requires-python = ">=3.8.1"
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.21.0",
+    "pandas>=2.0.0",
+    "einops==0.8.1",
+    "huggingface_hub>=0.33.1",
+    "matplotlib>=3.5.0",
+    "tqdm>=4.65.0",
+    "safetensors>=0.5.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+finetune = [
+    "pyqlib>=0.9.0",
+    "comet_ml>=3.35.0",
+]
+all = [
+    "kronos-financial[dev,finetune]"
+]
+
+[project.urls]
+Homepage = "https://github.com/shiyu-coder/Kronos"
+Repository = "https://github.com/shiyu-coder/Kronos"
+Documentation = "https://github.com/shiyu-coder/Kronos"
+"Bug Tracker" = "https://github.com/shiyu-coder/Kronos/issues"
+
+[project.scripts]
+kronos-train = "kronos.training.train_predictor:main"
+kronos-finetune = "kronos.training.train_tokenizer:main"
+kronos-preprocess = "kronos.data.qlib_data_preprocess:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+"kronos" = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+src_paths = ["src", "scripts", "tests"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "einops.*",
+    "comet_ml.*",
+    "qlib.*",
+    "matplotlib.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=kronos",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# uv specific configurations
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0", 
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+
+# Package resolution settings
+package = true
+managed = true
+
+[tool.uv.sources]
+# Add any local package sources here if needed
